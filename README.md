@@ -1,5 +1,5 @@
 #########################################
-# groupe BI 6
+# groupe BI 04
 # Pierre STRIEBIG
 # Damien HARMANGE
 # Youssef BENDAHOU
