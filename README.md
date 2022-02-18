@@ -1,5 +1,5 @@
 #########################################
-# groupe MPCI 3
+# groupe BI 6
 # Pierre STRIEBIG
 # Damien HARMANGE
 # Youssef BENDAHOU
