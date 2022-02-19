@@ -1,5 +1,9 @@
-import random as rd 
+from tkinter import *
 
-x = rd.randint(0,10)
+# fenetre
+window = Tk()
 
-print(x)
+window.title("projet s2")
+window.geometry("1366x768")
+
+window.mainloop()
