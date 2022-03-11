@@ -9,6 +9,7 @@ list = []
 
 EXERCICE 1 :
 
+list = []
 for i in range (3):
  notes = int(input( "entrez note"))
  list.append(notes)
