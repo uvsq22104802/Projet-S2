@@ -4,5 +4,18 @@
 # Damien HARMANGE
 # Youssef BENDAHOU 
 # https://github.com/uvsq22104802/Projet-S2
-ragondin
 #########################################
+list = []
+
+EXERCICE 1 :
+
+for i in range (3):
+ notes = int(input( "entrez note"))
+ list.append(notes)
+ 
+
+moyenne = sum(list)/len(list)
+print(list , moyenne)
+
+EXERCICE 2 :
+
