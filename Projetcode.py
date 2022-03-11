@@ -1,6 +1,7 @@
-import random as rd 
+from tkinter import *
 
-x = rd.randint(0,10)
+# fenetre
+window = Tk()
 
 print(x)
  
