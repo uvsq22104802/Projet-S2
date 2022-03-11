@@ -1,5 +1,7 @@
-import random as rd 
+for i in range (3):
+ notes = int(input( "entrez note"))
+ list.append(notes)
+ 
 
-x = rd.randint(0,10)
-
-print(x)
+moyenne = sum(list)/len(list)
+print(list , moyenne)
