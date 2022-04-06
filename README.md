@@ -20,3 +20,4 @@ print(list , moyenne)
 
 EXERCICE 2 :
 
+test
