@@ -1,17 +1,24 @@
+from time import sleep
 import tkinter as tk 
 import random as rd
+import asyncio 
 
-COTE = 300 
+COTE = 300
 
-randomx = rd.randint(0,290)
-randomy = rd.randint(0,290)
+n = 10
+
 
 
 def crée_proie() :
-    proie = canvas.create_oval(randomx,randomy,randomx+10,randomy+10,fill="blue")
+    for i in range (n) :
+       randomx = rd.randint(0,290)
+       randomy = rd.randint(0,290)
+       proie = canvas.create_rectangle(randomx,randomy,randomx+10,randomy+10,fill="blue")
+        
+  
+    
 
     return[proie]
-    
 
 
 
@@ -27,6 +34,3 @@ canvas.grid()
 boloss = crée_proie()
 
 racine.mainloop()
-
-
-
