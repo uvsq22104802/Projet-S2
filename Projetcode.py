@@ -17,9 +17,7 @@ def crée_proie() :
 
        coord = canvas.coords(proie)
 
-       choc = canvas.find_overlapping(coord)
-       for obj in choc : 
-        canvas.itemconfigure(obj, fill = "red")
+       
 
     
 
