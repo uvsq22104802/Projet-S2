@@ -3,13 +3,16 @@ import random as rd
 
 COTE = 600
 
+n = 10
+
+def crée_proie() :
+    for i in range (0,n) :
+       randomx = rd.randint(0,COTE-20)
+       randomy = rd.randint(0,COTE-20)
+       proie = canvas.create_rectangle(randomx,randomy,randomx+20,randomy+20,fill="blue")
 
 
-#creation des proies 
-def proie() :
-    matrice = []
-
-
+    return[proie]
 
 #creation du quadrillage#
 
@@ -25,5 +28,7 @@ canvas = tk.Canvas(racine, bg="black", width=COTE, height=COTE)
 canvas.grid()
 
 quadrillage()
+
+test = crée_proie()
 
 racine.mainloop()
