@@ -2,7 +2,7 @@ from ast import Delete
 import tkinter as tk 
 import random as rd
 
-COTE = 300
+COTE = 600
 
 n = 100
 
@@ -14,12 +14,6 @@ def crée_proie() :
        randomx = rd.randint(0,290)
        randomy = rd.randint(0,290)
        proie = canvas.create_rectangle(randomx,randomy,randomx+10,randomy+10,fill="blue")
-
-       coord = canvas.coords(proie)
-
-       
-
-    
 
 
     return[proie]
