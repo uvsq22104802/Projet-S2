@@ -5,21 +5,28 @@ import time
 COTE = 600
 GRILLE = 30
 n = 10
-CARRE = COTE/GRILLE
+REPRODUCTION = 3
+CARRE = COTE//GRILLE
 
 def tour(event):
     print("test")
+    for i in range (REPRODUCTION) :
+        randomx = rd.randint(0,GRILLE-1)
+        randomy = rd.randint(0,GRILLE-1) 
+        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
+
+
     
 
 def crée_proie() :
-    global proies, randomx, randomy
+    global proies
     proies = []
     for i in range (0,n) :
        randomx = rd.randint(0,GRILLE-1)
        randomy = rd.randint(0,GRILLE-1)
        vie = 5
        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       tpl = 
+    
 
     
 
@@ -28,9 +35,11 @@ def crée_proie() :
 #creation du quadrillage#
 
 def quadrillage() :
-    for i in range (0,COTE,20) : 
+    for i in range (0,COTE,CARRE) : 
      canvas.create_line(COTE,i,0,i, fill="white")
      canvas.create_line(i,COTE,i,0, fill= "white")
+
+
 
 #Creation du canvas#
 racine = tk.Tk()
