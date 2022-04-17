@@ -15,6 +15,7 @@ reproduction = 3
 
 def tour(event):
     global position,vie 
+    mort()
 
     for i in range (reproduction) :
        randomx = rd.randint(0,GRILLE-1)
@@ -25,10 +26,9 @@ def tour(event):
             randomy = rd.randint(0,GRILLE-1)
 
        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       position.append([randomx, randomy])
+       position.append((randomx, randomy))
        vie.append(life)
        
-
 
 
 def crée_proie() :
@@ -45,14 +45,20 @@ def crée_proie() :
             randomy = rd.randint(0,GRILLE-1)
 
        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       position.append([randomx, randomy])
+       position.append((randomx, randomy))
        vie.append(life)
 
     return position
 
 
+def mort() :
+    for j in range (len(vie)) :
+        vie[j] -= 1
 
 
+
+    
+    print(vie)
 
 
 #creation du quadrillage#
