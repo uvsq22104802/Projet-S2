@@ -2,35 +2,58 @@ import tkinter as tk
 import random as rd
 import time
 
+#definition du canvas
 COTE = 600
 GRILLE = 30
-n = 10
-REPRODUCTION = 3
 CARRE = COTE//GRILLE
 
+#definition des regles de vie 
+life = 5
+n = 10
+reproduction = 3
+
+
 def tour(event):
-    print("test")
-    for i in range (REPRODUCTION) :
-        randomx = rd.randint(0,GRILLE-1)
-        randomy = rd.randint(0,GRILLE-1) 
-        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
+    global position,vie 
+
+    for i in range (reproduction) :
+       randomx = rd.randint(0,GRILLE-1)
+       randomy = rd.randint(0,GRILLE-1)
+
+       while [randomx, randomy] in position : 
+            randomx = rd.randint(0,GRILLE-1)
+            randomy = rd.randint(0,GRILLE-1)
+
+       canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
+       position.append([randomx, randomy])
+       vie.append(life)
+       
 
 
-    
 
 def crée_proie() :
-    global proies
-    proies = []
+    global position, vie
+    position = []
+    vie = []
+
     for i in range (0,n) :
        randomx = rd.randint(0,GRILLE-1)
        randomy = rd.randint(0,GRILLE-1)
-       vie = 5
+
+       while [randomx, randomy] in position : 
+            randomx = rd.randint(0,GRILLE-1)
+            randomy = rd.randint(0,GRILLE-1)
+
        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-    
+       position.append([randomx, randomy])
+       vie.append(life)
 
-    
+    return position
 
-    return proies
+
+
+
+
 
 #creation du quadrillage#
 
@@ -54,6 +77,6 @@ bt.bind('<Button-1>', tour)
 quadrillage()
 
 test = crée_proie()
-print(proies)
+print(position)
 
 racine.mainloop()
