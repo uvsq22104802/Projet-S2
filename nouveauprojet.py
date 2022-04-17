@@ -56,8 +56,6 @@ def mort() :
         vie[j] -= 1
 
 
-
-    
     print(vie)
 
 
