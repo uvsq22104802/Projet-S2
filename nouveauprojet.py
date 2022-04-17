@@ -1,7 +1,5 @@
-from ast import Delete
 import tkinter as tk 
 import random as rd
-import time
 
 #definition du canvas
 COTE = 600
@@ -10,13 +8,14 @@ CARRE = COTE//GRILLE
 
 #definition des regles de vie 
 life = 5
-n = 10
-reproduction = 3
+n = 900
+reproduction = 0
+boucle = 1
 
 
 def tour(event):
     global position,vie 
-    mort()
+    mort_deplacement()
 
     for i in range (reproduction) :
        randomx = rd.randint(0,GRILLE-1)
@@ -27,9 +26,9 @@ def tour(event):
             randomy = rd.randint(0,GRILLE-1)
 
        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       position.append((randomx, randomy))
+       position.append([randomx, randomy])
        vie.append(life)
-       
+    
 
 
 def crée_proie() :
@@ -37,7 +36,7 @@ def crée_proie() :
     position = []
     vie = []
 
-    for i in range (0,n) :
+    for i in range (n) :
        randomx = rd.randint(0,GRILLE-1)
        randomy = rd.randint(0,GRILLE-1)
 
@@ -46,26 +45,25 @@ def crée_proie() :
             randomy = rd.randint(0,GRILLE-1)
 
        canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       position.append((randomx, randomy))
+       position.append([randomx, randomy])
        vie.append(life)
-
-    return position
-
-
-def mort() :
-    for j in range (len(vie)) :
-        vie[j] -= 1
-
-        if vie[j] == 0 :
-            mourir = canvas.find_overlapping([j][0]*CARRE-10,position[j][1]*CARRE-10,position[j][0]*CARRE+CARRE-10,position[j][1]*CARRE+CARRE-10)
-            for obj in mourir :
-                canvas.delete(obj)
-            
 
     
 
 
+def mort_deplacement() :
+    for j in range (len(vie)) :
+        vie[j] -= 1
+        deplacement = rd.randint(1,4)
+        
+        if vie[j] == 0 :
+            mourir = canvas.find_closest(position[j][0]*CARRE-10,position[j][1]*CARRE-10,position[j][0]*CARRE+CARRE-10,position[j][1]*CARRE+CARRE-10)
+            for obj in mourir :
+                canvas.delete(obj)
+                del position[j]
 
+        
+        
 
 
 
@@ -81,6 +79,8 @@ bt.bind('<Button-1>', tour)
 
 
 test = crée_proie()
+
+
 print(position)
 
 racine.mainloop()
