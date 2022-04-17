@@ -1,3 +1,4 @@
+from ast import Delete
 import tkinter as tk 
 import random as rd
 import time
@@ -55,16 +56,16 @@ def mort() :
     for j in range (len(vie)) :
         vie[j] -= 1
 
+        if vie[j] == 0 :
+            mourir = canvas.find_overlapping([j][0]*CARRE-10,position[j][1]*CARRE-10,position[j][0]*CARRE+CARRE-10,position[j][1]*CARRE+CARRE-10)
+            for obj in mourir :
+                canvas.delete(obj)
+            
 
-    print(vie)
+    
 
 
-#creation du quadrillage#
 
-def quadrillage() :
-    for i in range (0,COTE,CARRE) : 
-     canvas.create_line(COTE,i,0,i, fill="white")
-     canvas.create_line(i,COTE,i,0, fill= "white")
 
 
 
@@ -78,7 +79,6 @@ bt = tk.Button(racine,text="nouveau tour")
 bt.grid()
 bt.bind('<Button-1>', tour)
 
-quadrillage()
 
 test = crée_proie()
 print(position)
