@@ -8,9 +8,8 @@ CARRE = COTE//GRILLE
 
 #definition des regles de vie 
 life = 5
-n = 900
-reproduction = 0
-boucle = 1
+n = 10
+reproduction = 330
 
 
 def tour(event):
@@ -54,13 +53,12 @@ def crée_proie() :
 def mort_deplacement() :
     for j in range (len(vie)) :
         vie[j] -= 1
-        deplacement = rd.randint(1,4)
         
         if vie[j] == 0 :
-            mourir = canvas.find_closest(position[j][0]*CARRE-10,position[j][1]*CARRE-10,position[j][0]*CARRE+CARRE-10,position[j][1]*CARRE+CARRE-10)
+            mourir = canvas.find_overlapping(position[j][0]*CARRE,position[j][1]*CARRE,position[j][0]*CARRE+CARRE,position[j][1]*CARRE+CARRE)
             for obj in mourir :
                 canvas.delete(obj)
-                del position[j]
+
 
         
         
