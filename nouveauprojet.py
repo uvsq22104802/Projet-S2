@@ -15,6 +15,16 @@ life = 5
 n = 10
 reproduction = 5
 
+def move() :
+    global proies,coord,coord_proies
+    coord_proies = []
+    coord = choice(list(grille))
+    mv = [[0,-1],[0,1],[-1,0],[1,0]] 
+    while life == 5 :
+        for proies in coord_proies : 
+                proies = (rd.choice(mv))
+                canvas.after(3000,move())
+
 
 def tour(event):
     mort()
@@ -24,6 +34,7 @@ def tour(event):
         grille.pop(coord)
         canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
         proies[coord] = life
+        coord_proies.append
 
 
 #creer proies
@@ -33,6 +44,7 @@ def creer_proies():
         grille.pop(coord)
         canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
         proies[coord] = 5
+        coord_proies.append
     
 
 
@@ -68,6 +80,7 @@ racine = tk.Tk()
 canvas = tk.Canvas(racine, bg="black", width=COTE, height=COTE)
 canvas.grid()
 
+
 #bouton
 bt = tk.Button(racine,text="nouveau tour")
 bt.grid()
@@ -77,5 +90,6 @@ creer_grille()
 
 creer_proies()
 
+move()
 
 racine.mainloop()
