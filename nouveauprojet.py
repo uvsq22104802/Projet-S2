@@ -16,24 +16,24 @@ n = 10
 reproduction = 5
 
 def move() :
-    global proies,coord,coord_proies
+    global proies,coord
     coord_proies = []
     coord = choice(list(grille))
-    mv = [[0,-1],[0,1],[-1,0],[1,0]] 
-    while life == 5 :
-        for proies in coord_proies : 
-                proies = (rd.choice(mv))
-                canvas.after(3000,move())
+    mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
+    for coord in coord_proies :
+        proies = rd.choice(mv))
 
 
 def tour(event):
     mort()
+    move()
 
     for p in range(reproduction):
         coord = choice(list(grille))
         grille.pop(coord)
         canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
         proies[coord] = life
+        coord = coord_proies
         coord_proies.append
 
 
