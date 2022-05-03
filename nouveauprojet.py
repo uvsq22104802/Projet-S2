@@ -21,7 +21,8 @@ def move() :
     coord = choice(list(grille))
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     for coord in coord_proies :
-        proies = rd.choice(mv))
+        proies = rd.choice(mv)
+        proies = canvas.move(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE)
 
 
 def tour(event):
