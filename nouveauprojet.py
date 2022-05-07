@@ -13,9 +13,10 @@ proies =  {}
 #definition des regles de vie 
 life = 5
 n = 10
-reproduction = 0
+reproduction = 1
 
 def mouvement() : 
+    global P2
     P2 = {}
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     
@@ -35,20 +36,14 @@ def mouvement() :
         for obj in move : 
             canvas.moveto(obj, (p[0]+a)*CARRE, (p[1]+b)*CARRE)
 
+        P2[coord] = life
         
-
-    
-
-        
-
-    
+       
 
 def tour(event):
     mouvement() 
     mort()
     
-    
-
     for p in range(reproduction):
         coord = choice(list(grille))
         grille.pop(coord)
@@ -62,16 +57,15 @@ def creer_proies():
         coord = choice(list(grille))
         grille.pop(coord)
         canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
-        proies[coord] = 5
+        proies[coord] = life
     
 
 
 def mort() :
-    print(proies)
     a_delete = []
-    for p in proies:
-        proies[p] -= 1
-        if proies[p] == 0:
+    for p in P2:
+        P2[p] -= 1
+        if P2[p] == 0:
             suppr = canvas.find_overlapping(p[0]*CARRE,p[1]*CARRE,p[0]*CARRE+CARRE,p[1]*CARRE+CARRE)
             for obj in suppr : 
                 canvas.delete(obj)
@@ -79,7 +73,7 @@ def mort() :
             grille[p] = 0
             
     for position in a_delete:
-        proies.pop(position)
+        P2.pop(position)
 
 
 
