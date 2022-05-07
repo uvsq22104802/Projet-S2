@@ -1,82 +1,77 @@
-import tkinter as tk 
-import random as rd
-import time
+import tkinter as tk
 
-#definition du canvas
-COTE = 600
-GRILLE = 30
-CARRE = COTE//GRILLE
+##################
+# Constantes
 
-#definition des regles de vie 
-life = 5
-n = 900
-reproduction = 3
+LARGEUR = 600
+HAUTEUR = 400
 
+###################
+# Fonctions
 
-def tour(event):
-    global position,vie 
-
-    for i in range (reproduction) :
-       randomx = rd.randint(0,GRILLE-1)
-       randomy = rd.randint(0,GRILLE-1)
-
-       while [randomx, randomy] in position : 
-            randomx = rd.randint(0,GRILLE-1)
-            randomy = rd.randint(0,GRILLE-1)
-
-       canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       position.append([randomx, randomy])
-       vie.append(life)
-       
+def creer_balle():
+    """Dessine un disque bleu et retourne son identifiant
+     et les valeurs de déplacements dans une liste"""
+    global compteur_mur
+    x, y = LARGEUR // 2, HAUTEUR // 2
+    dx, dy = 3, 5
+    rayon = 20
+    compteur_mur = 0
+    cercle = canvas.create_oval((x-rayon, y-rayon),
+                                (x+rayon, y+rayon),
+                                fill="blue")
+    return [cercle, dx, dy]
 
 
-
-def crée_proie() :
-    global position, vie
-    position = []
-    vie = []
-
-    for i in range (0,n) :
-       randomx = rd.randint(0,GRILLE-1)
-       randomy = rd.randint(0,GRILLE-1)
-
-       while [randomx, randomy] in position : 
-            randomx = rd.randint(0,GRILLE-1)
-            randomy = rd.randint(0,GRILLE-1)
-
-       canvas.create_rectangle(randomx*CARRE,randomy*CARRE,randomx*CARRE+CARRE,randomy*CARRE+CARRE,fill="blue")
-       position.append([randomx, randomy])
-       vie.append(life)
-
-    return position
+def mouvement():
+    """Déplace la balle et ré-appelle la fonction avec un compte-à-rebours"""
+    global id_after
+    rebond()
+    canvas.move(balle[0], balle[1], balle[2])
+    id_after = canvas.after(20, mouvement)
 
 
-
-
-
-
-#creation du quadrillage#
-
-def quadrillage() :
-    for i in range (0,COTE,CARRE) : 
-     canvas.create_line(COTE,i,0,i, fill="white")
-     canvas.create_line(i,COTE,i,0, fill= "white")
+def rebond():
+    """Fait rebondir la balle sur les bords du canevas"""
+    global balle, compteur_mur, id_after
+    x0, y0, x1, y1 = canvas.coords(balle[0])
+    if x0 <= 0 or x1 >= 600:
+        balle[1] = -balle[1]
+    if compteur_mur < 10:
+        if y0 <= 0 :
+            canvas.moveto(balle[0],y=400)
+            compteur_mur += 1
+        elif y1 >= 400:
+            canvas.moveto(balle[0],y=0)
+            compteur_mur += 1
+    elif 10 <= compteur_mur <= 20:
+        if y0 <= 0 or y1 >= 400:
+            balle[2] = -balle[2]
+            compteur_mur += 1
+            if compteur_mur == 11:
+                canvas.create_line(0,5,600,5,fill='white',width=3)
+                canvas.create_line(0,395,600,395,fill='white',width=3)
+    else:
+        balle[1] = 0
+        balle[2] = 0
+        canvas.after_cancel(id_after)
 
 
 
-#Creation du canvas#
+
+######################
+# programme principal
+
+# création des widgets
 racine = tk.Tk()
-canvas = tk.Canvas(racine, bg="black", width=COTE, height=COTE)
+canvas = tk.Canvas(racine, bg="black", width=LARGEUR, height=HAUTEUR)
 canvas.grid()
 
-#bouton
-bt = tk.Button(racine,text="nouveau tour")
-bt.grid()
-bt.bind('<Button-1>', tour)
+# initialisation de la balle
+balle = creer_balle()
 
-quadrillage()
+# déplacement de la balle
+mouvement()
 
-test = crée_proie()
-print(position)
-
+# boucle principale
 racine.mainloop()
