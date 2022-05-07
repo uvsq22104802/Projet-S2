@@ -1,77 +1,104 @@
-import tkinter as tk
+from calendar import c
+import tkinter as tk 
+import random as rd
+from random import randint, choice, random
 
-##################
-# Constantes
+#definition du canvas
+COTE = 600
+GRILLE = 30
+CARRE = COTE//GRILLE
+grille  = {}
+proies =  {}
 
-LARGEUR = 600
-HAUTEUR = 400
+#definition des regles de vie 
+life = 5
+n = 10
+reproduction = 0
 
-###################
-# Fonctions
+def mouvement() : 
+    global P2
+    P2 = {}
+    mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
+    
+    for p in proies :
+        
+        MV = rd.choice(mv)
+        a,b = MV[0], MV[1]
+        coord = (p[0]+a,p[1]+b)
+        
+        
+        while coord not in grille : 
+            MV = rd.choice(mv)
+            a,b = MV[0], MV[1]
+            coord = (p[0]+a,p[1]+b)
 
-def creer_balle():
-    """Dessine un disque bleu et retourne son identifiant
-     et les valeurs de déplacements dans une liste"""
-    global compteur_mur
-    x, y = LARGEUR // 2, HAUTEUR // 2
-    dx, dy = 3, 5
-    rayon = 20
-    compteur_mur = 0
-    cercle = canvas.create_oval((x-rayon, y-rayon),
-                                (x+rayon, y+rayon),
-                                fill="blue")
-    return [cercle, dx, dy]
+        move = canvas.find_overlapping(p[0]*CARRE,p[1]*CARRE,p[0]*CARRE+CARRE,p[1]*CARRE+CARRE)
+        for obj in move : 
+            canvas.moveto(obj, (p[0]+a)*CARRE, (p[1]+b)*CARRE)
 
+        P2[coord] = life
+        
+       
 
-def mouvement():
-    """Déplace la balle et ré-appelle la fonction avec un compte-à-rebours"""
-    global id_after
-    rebond()
-    canvas.move(balle[0], balle[1], balle[2])
-    id_after = canvas.after(20, mouvement)
-
-
-def rebond():
-    """Fait rebondir la balle sur les bords du canevas"""
-    global balle, compteur_mur, id_after
-    x0, y0, x1, y1 = canvas.coords(balle[0])
-    if x0 <= 0 or x1 >= 600:
-        balle[1] = -balle[1]
-    if compteur_mur < 10:
-        if y0 <= 0 :
-            canvas.moveto(balle[0],y=400)
-            compteur_mur += 1
-        elif y1 >= 400:
-            canvas.moveto(balle[0],y=0)
-            compteur_mur += 1
-    elif 10 <= compteur_mur <= 20:
-        if y0 <= 0 or y1 >= 400:
-            balle[2] = -balle[2]
-            compteur_mur += 1
-            if compteur_mur == 11:
-                canvas.create_line(0,5,600,5,fill='white',width=3)
-                canvas.create_line(0,395,600,395,fill='white',width=3)
-    else:
-        balle[1] = 0
-        balle[2] = 0
-        canvas.after_cancel(id_after)
+def tour(event):
+    mouvement() 
+    mort()
+    
+    for p in range(reproduction):
+        coord = choice(list(grille))
+        grille.pop(coord)
+        canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
+        proies[coord] = life
 
 
+#creer proies
+def creer_proies():
+    for p in range(n):
+        coord = choice(list(grille))
+        grille.pop(coord)
+        canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
+        proies[coord] = life
+    
 
 
-######################
-# programme principal
+def mort() :
+    a_delete = []
+    for p in P2:
+        P2[p] -= 1
+        if P2[p] == 0:
+            suppr = canvas.find_overlapping(p[0]*CARRE,p[1]*CARRE,p[0]*CARRE+CARRE,p[1]*CARRE+CARRE)
+            for obj in suppr : 
+                canvas.delete(obj)
+            a_delete.append(p)
+            grille[p] = 0
+            
+    for position in a_delete:
+        P2.pop(position)
 
-# création des widgets
+
+
+
+        
+#definition de toute les positions
+def creer_grille():
+    for i in range(30):
+        for j in range(30):
+            grille[(i,j)] = 0
+
+
+
+#Creation du canvas#
 racine = tk.Tk()
-canvas = tk.Canvas(racine, bg="black", width=LARGEUR, height=HAUTEUR)
+canvas = tk.Canvas(racine, bg="black", width=COTE, height=COTE)
 canvas.grid()
 
-# initialisation de la balle
-balle = creer_balle()
+#bouton
+bt = tk.Button(racine,text="nouveau tour")
+bt.grid()
+bt.bind('<Button-1>', tour)
 
-# déplacement de la balle
-mouvement()
+creer_grille()
 
-# boucle principale
+creer_proies()
+
 racine.mainloop()
