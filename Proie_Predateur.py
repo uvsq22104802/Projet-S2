@@ -87,7 +87,13 @@ def tour(event):
         predateurs.append(coord)
         grille.remove(coord[0])
 
-
+def chasse() : 
+    global energie, proies
+    if predateurs in proies : 
+        proies = canvas.delete()
+        energie += 4 
+    if energie == 16 :
+        créer_prédateurs(
 
 #creer proies et des predateur
 def creer_animaux():
