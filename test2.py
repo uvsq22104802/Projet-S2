@@ -1,9 +1,6 @@
-grille = [[5,2],[6,8],[3,2]]
-proie = []
+T = [[5,2], 3]
+X = [5,2], 3
 
-proie.append(grille[2])
+T.remove(X)
 
-proie[0] = [proie[0], 5]
-
-
-print(proie)
+print(T)
