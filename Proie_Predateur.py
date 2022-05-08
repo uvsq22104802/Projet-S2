@@ -77,6 +77,8 @@ def tour(event):
     mouvement() 
     mort_proies()
     mort_predateur()
+    chasse()
+    mouvement_predateurs()
     
     for p in range(Rproie):
         coord = [choice(list(grille)), life]
