@@ -46,6 +46,9 @@ def mouvement() :
 
     #mouvement predateur 
     return
+
+def mouvement_predateurs() : 
+    mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     for p in predateurs :
         MV = rd.choice(mv)
         a,b = MV[0], MV[1]
@@ -135,8 +138,7 @@ def mort_predateur() :
     a_delete = None
     for p in predateurs:
         p[1] -= 1
-        p[2] -= 1
-        if (p[1] == 0) or (p[2] == 0):
+        if (p[1] == 0) :
             suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
             for obj in suppr : 
                 canvas.delete(obj)
