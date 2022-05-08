@@ -14,14 +14,15 @@ predateurs = []
 #definition des regles de vie 
 life = 5
 Nproie = 5
-Npreda = 2
+Npreda = 0
 energie = 3
-Rproie = 2
-Rpreda = 2
+Rproie = 1
+Rpreda = 0
 
 
 #definition du mouvement
 def mouvement() : 
+    return
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     #mouvement des proies
     for p in proies :
@@ -126,6 +127,7 @@ def mort_proies() :
 
 
 def mort_predateur() :
+    return
     print(predateurs)
     a_delete = None
     for p in predateurs:
