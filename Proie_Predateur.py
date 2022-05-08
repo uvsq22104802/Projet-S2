@@ -134,6 +134,7 @@ def mort_predateur() :
             suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
             for obj in suppr : 
                 canvas.delete(obj)
+                obj == a_delete
 
             a_delete = p
             grille.append(p)
