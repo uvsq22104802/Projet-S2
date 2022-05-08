@@ -13,16 +13,15 @@ predateurs = []
 
 #definition des regles de vie 
 life = 5
-Nproie = 5
-Npreda = 0
-energie = 3
-Rproie = 1
-Rpreda = 0
+Nproie = 0
+Npreda = 5
+energie = 10
+Rproie = 0
+Rpreda = 2
 
 
 #definition du mouvement
 def mouvement() : 
-    return
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     #mouvement des proies
     for p in proies :
@@ -77,18 +76,16 @@ def tour(event):
     mort_predateur()
     
     for p in range(Rproie):
-        coord = choice(list(grille))
-        canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
+        coord = [choice(list(grille)), life]
+        canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+ CARRE, fill = "blue")
         proies.append(coord)
-        proies[p] = [proies[p], life]
-        grille.remove(coord)
+        grille.remove(coord[0])
 
     for p in range(Rpreda) :
-        coord = choice(list(grille))
-        canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "red")
+        coord = [choice(list(grille)), life, energie]
+        canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+ CARRE, fill = "red")
         predateurs.append(coord)
-        predateurs[p] = [predateurs[p], life, energie]
-        grille.remove(coord)
+        grille.remove(coord[0])
 
 
 
@@ -127,13 +124,13 @@ def mort_proies() :
 
 
 def mort_predateur() :
-    return
+
     print(predateurs)
     a_delete = None
     for p in predateurs:
         p[1] -= 1
         p[2] -= 1
-        if p[1] == 0 or p[2] == 0:
+        if (p[1] == 0) or (p[2] == 0):
             suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
             for obj in suppr : 
                 canvas.delete(obj)
@@ -141,7 +138,7 @@ def mort_predateur() :
             a_delete = p
             grille.append(p)
     
-    if a_delete != None : 
+    if a_delete != None :
         predateurs.remove(a_delete)
 
 
