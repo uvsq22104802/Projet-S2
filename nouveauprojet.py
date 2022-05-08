@@ -7,24 +7,23 @@ from random import randint, choice, random
 COTE = 600
 GRILLE = 30
 CARRE = COTE//GRILLE
-grille  = {}
-proies =  {}
+grille  = []
+proies =  []
 
 #definition des regles de vie 
 life = 5
-n = 30
-reproduction = 0
+n = 0
+reproduction = 1
 
 def mouvement() : 
-    global P2
-    P2 = {}
+    return
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     
     for p in proies :
         
         MV = rd.choice(mv)
         a,b = MV[0], MV[1]
-        coord = (p[0]+a,p[1]+b)
+        coord = (p[0][0]+a,p[0][1]+b)
         
         
         while coord not in grille : 
@@ -36,10 +35,6 @@ def mouvement() :
         for obj in move : 
             canvas.moveto(obj, (p[0]+a)*CARRE, (p[1]+b)*CARRE)
 
-        
-        
-        
-       
 
 def tour(event):
     mouvement() 
@@ -47,44 +42,47 @@ def tour(event):
     
     for p in range(reproduction):
         coord = choice(list(grille))
-        grille.pop(coord)
-        canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
-        proies[coord] = life
+        canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+ CARRE, fill = "blue")
+        proies.append(coord)
+        del grille[p]
 
 
 #creer proies
 def creer_proies():
     for p in range(n):
         coord = choice(list(grille))
-        grille.pop(coord)
-        canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "blue")
-        proies[coord] = life
+        canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+ CARRE, fill = "blue")
+        proies.append(coord)
+        del grille[p]
     
 
 
 def mort() :
-    a_delete = []
-    for p in P2:
-        P2[p] -= 1
-        if P2[p] == 0:
-            suppr = canvas.find_overlapping(p[0]*CARRE,p[1]*CARRE,p[0]*CARRE+CARRE,p[1]*CARRE+CARRE)
+    a_delete = None
+    for p in proies:
+        p[1] -= 1
+        if p[1] == 0:
+            suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
             for obj in suppr : 
                 canvas.delete(obj)
-            a_delete.append(p)
-            grille[p] = 0
+
+            a_delete = p
+            grille.append(p)
+    
+    if a_delete != None : 
+        proies.remove(a_delete)
+    
+    print(proies)
+    print(grille)
             
-    for position in a_delete:
-        P2.pop(position)
 
-
-
-
-        
+    
+    
 #definition de toute les positions
 def creer_grille():
     for i in range(30):
         for j in range(30):
-            grille[(i,j)] = 0
+            grille.append([[i,j],life])
 
 
 
