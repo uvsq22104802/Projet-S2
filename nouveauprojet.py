@@ -16,7 +16,6 @@ n = 0
 reproduction = 1
 
 def mouvement() : 
-    return
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     
     for p in proies :
@@ -33,7 +32,7 @@ def mouvement() :
 
         move = canvas.find_overlapping(p[0]*CARRE,p[1]*CARRE,p[0]*CARRE+CARRE,p[1]*CARRE+CARRE)
         for obj in move : 
-            canvas.moveto(obj, (p[0]+a)*CARRE, (p[1]+b)*CARRE)
+            canvas.moveto(obj, (p[0])*CARRE, (p[1])*CARRE)
 
 
 def tour(event):
