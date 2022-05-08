@@ -92,8 +92,8 @@ def chasse() :
     if predateurs in proies : 
         proies = canvas.delete()
         energie += 4 
-    if energie == 16 :
-        créer_prédateurs(
+    if energie == 14 :
+        créer_prédateurs()
 
 #creer proies et des predateur
 def creer_animaux():
