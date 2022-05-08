@@ -14,14 +14,16 @@ predateurs = []
 #definition des regles de vie 
 life = 5
 Nproie = 0
-Npreda = 5
+Npreda = 0
 energie = 10
-Rproie = 0
-Rpreda = 2
+MIAM = 3
+Rproie = 30
+Rpreda = 0
 
 
 #definition du mouvement
 def mouvement() : 
+    return
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     #mouvement des proies
     for p in proies :
@@ -48,6 +50,7 @@ def mouvement() :
     return
 
 def mouvement_predateurs() : 
+    return
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     for p in predateurs :
         MV = rd.choice(mv)
@@ -73,7 +76,6 @@ def mouvement_predateurs() :
 
 #definitiopn de la reproduction
 def tour(event):
-    print(proies)
     mouvement() 
     mort_proies()
     mort_predateur()
@@ -84,6 +86,7 @@ def tour(event):
         coord = [choice(list(grille)), life]
         canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+ CARRE, fill = "blue")
         proies.append(coord)
+        print(coord)
         grille.remove(coord[0])
 
     for p in range(Rpreda) :
@@ -93,10 +96,11 @@ def tour(event):
         grille.remove(coord[0])
 
 def chasse() : 
+    return
     global energie, proies
     if predateurs in proies : 
         proies = canvas.delete()
-        energie += 4 
+        energie += MIAM 
     if energie == 14 :
         créer_prédateurs()
 
@@ -118,6 +122,7 @@ def creer_animaux():
 
 
 #mort des proies
+
 def mort_proies() :
     a_delete = None
     for p in proies:
@@ -129,28 +134,33 @@ def mort_proies() :
 
             a_delete = p
             grille.append(p)
+            
+
+     
+    if a_delete != None :
+        proies.remove(p)
     
-    if a_delete != None : 
-        proies.remove(a_delete)
 
 
 def mort_predateur() :
 
-    print(predateurs)
     a_delete = None
     for p in predateurs:
         p[1] -= 1
-        if (p[1] == 0) :
+        if p[1] == 0 :
             suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
             for obj in suppr : 
                 canvas.delete(obj)
                 obj == a_delete
+                
+
 
             a_delete = p
             grille.append(p)
     
     if a_delete != None :
         predateurs.remove(a_delete)
+        
 
 
 #definition de toute les positions
@@ -174,6 +184,5 @@ bt.bind('<Button-1>', tour)
 creer_grille()
 
 creer_animaux()
-
 
 racine.mainloop()
