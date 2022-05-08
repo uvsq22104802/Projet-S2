@@ -12,7 +12,7 @@ proies =  {}
 
 #definition des regles de vie 
 life = 5
-n = 10
+n = 300
 reproduction = 0
 
 def mouvement() : 
@@ -32,11 +32,12 @@ def mouvement() :
             a,b = MV[0], MV[1]
             coord = (p[0]+a,p[1]+b)
 
-        move = canvas.find_overlapping(p[0]*CARRE,p[1]*CARRE,p[0]*CARRE+CARRE,p[1]*CARRE+CARRE)
+        move = canvas.find_overlapping(p[0]*CARRE-10,p[1]*CARRE-10,p[0]*CARRE+CARRE-10,p[1]*CARRE+CARRE-10)
         for obj in move : 
             canvas.moveto(obj, (p[0]+a)*CARRE, (p[1]+b)*CARRE)
 
-        P2[coord] = life
+        
+        
         
        
 

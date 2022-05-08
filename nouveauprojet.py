@@ -12,8 +12,8 @@ proies =  {}
 
 #definition des regles de vie 
 life = 5
-n = 10
-reproduction = 1
+n = 30
+reproduction = 0
 
 def mouvement() : 
     global P2
@@ -36,7 +36,8 @@ def mouvement() :
         for obj in move : 
             canvas.moveto(obj, (p[0]+a)*CARRE, (p[1]+b)*CARRE)
 
-        P2[coord] = life
+        
+        
         
        
 
