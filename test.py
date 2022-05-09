@@ -13,11 +13,11 @@ predateurs = []
 
 #definition des regles de vie 
 life = 5
-Nproie = 0
-Npreda = 5
+Nproie = 5
+Npreda = 0
 energie = 10
 Rproie = 0
-Rpreda = 2
+Rpreda = 0
 
 
 #definition du mouvement
@@ -70,7 +70,6 @@ def mouvement() :
 
 #definitiopn de la reproduction
 def tour(event):
-    print(proies)
     mouvement() 
     mort_proies()
     mort_predateur()
@@ -109,6 +108,7 @@ def creer_animaux():
 #mort des proies
 def mort_proies() :
     a_delete = None
+    print(proies)
     for p in proies:
         p[1] -= 1
         if p[1] == 0:
