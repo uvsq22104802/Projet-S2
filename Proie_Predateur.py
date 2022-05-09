@@ -13,7 +13,7 @@ predateurs = []
 
 #definition des regles de vie 
 life = 5
-Nproie = 5
+Nproie = 2
 Npreda = 0
 energie = 10
 Rproie = 0
@@ -22,27 +22,31 @@ Rpreda = 0
 
 #definition du mouvement
 def mouvement() : 
+    a_delete = []
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     #mouvement des proies
     for p in proies :
         MV = rd.choice(mv)
         a,b = MV[0], MV[1]
         coord = [[p[0][0]+a,p[0][1]+b],p[1]]
-        proies.remove(p)
+        a_delete.append(p)
         proies.append(coord)
-    
-        for k in grille : 
-            while proies[0] not in k and ((p[0][0] or p[0][1])<0) and ((p[0][0] or p[0][1])>30):
-                MV = rd.choice(mv)
-                a,b = MV[0], MV[1]
-                coord = [[p[0][0]+a,p[0][1]+b],p[1]]
-                proies.remove(p)
-                proies.append(coord)
+        
+        while (coord[0][0] or coord[0][1])< 0 or (coord[0][0] or coord[0][1])> 30 :
+            return
+            MV = rd.choice(mv)
+            a,b = MV[0], MV[1]
+            coord = [[p[0][0]+a,p[0][1]+b],p[1]]
+            a_delete.append(p)
+            proies.append(coord)
                 
         
         move = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
         for obj in move : 
             canvas.moveto(obj, coord[0][0]*CARRE, coord[0][1]*CARRE)
+
+    for i in a_delete :
+        print(i)
 
     #mouvement predateur 
     return
@@ -107,39 +111,36 @@ def creer_animaux():
 
 #mort des proies
 def mort_proies() :
-    a_delete = None
-    print(proies)
+    a_delete = []
     for p in proies:
         p[1] -= 1
         if p[1] == 0:
-            suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
+            suppr = canvas.find_overlapping(p[0][0]*CARRE-10,p[0][1]*CARRE-10,p[0][0]*CARRE+CARRE-10,p[0][1]*CARRE+CARRE-10)
             for obj in suppr : 
                 canvas.delete(obj)
 
-            a_delete = p
-            grille.append(p)
+            a_delete.append(p)
+            grille.append(p[0])
     
-    if a_delete != None : 
-        proies.remove(a_delete)
+    for i in a_delete:
+        proies.remove(i)
 
 
 def mort_predateur() :
-
-    print(predateurs)
-    a_delete = None
+    a_delete = []
     for p in predateurs:
         p[1] -= 1
         p[2] -= 1
         if (p[1] == 0) or (p[2] == 0):
-            suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
+            suppr = canvas.find_overlapping(p[0][0]*CARRE-10,p[0][1]*CARRE-10,p[0][0]*CARRE+CARRE-10,p[0][1]*CARRE+CARRE-10)
             for obj in suppr : 
                 canvas.delete(obj)
 
-            a_delete = p
-            grille.append(p)
+            a_delete.append(p)
+            grille.append(p[0])
     
-    if a_delete != None :
-        predateurs.remove(a_delete)
+    for i in a_delete :
+        predateurs.remove(i)
 
 
 #definition de toute les positions
@@ -163,6 +164,5 @@ bt.bind('<Button-1>', tour)
 creer_grille()
 
 creer_animaux()
-
 
 racine.mainloop()
