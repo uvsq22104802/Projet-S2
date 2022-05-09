@@ -22,6 +22,7 @@ Rpreda = 0
 
 #definition du mouvement
 def mouvement_proies() : 
+
     mv = [[0,-1],[0,1],[-1,0],[1,0],[1,1],[1,-1],[-1,1],[-1,-1]] 
     #mouvement des proies
     for p in proies :
@@ -29,25 +30,21 @@ def mouvement_proies() :
         a,b = MV[0], MV[1]
         coord = [[p[0][0]+a,p[0][1]+b],p[1]]
         proies.remove(p)
-        print(p)
         proies.append(coord)
     
-        
-        for k in grille:
-            while p[0] not in grille :
+        for k in grille : 
+            while coord not in k :
                 MV = rd.choice(mv)
                 a,b = MV[0], MV[1]
                 coord = [[p[0][0]+a,p[0][1]+b],p[1]]
-                proies.remove(p)
+                
                 proies.append(coord)
                 
         
         move = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
-        for obj in move :
+        for obj in move : 
             canvas.moveto(obj, coord[0][0]*CARRE, coord[0][1]*CARRE)
 
-    #mouvement predateur 
-    return
 
 def mouvement_predateurs() : 
     return
