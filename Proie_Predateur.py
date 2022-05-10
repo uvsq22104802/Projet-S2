@@ -22,7 +22,7 @@ Rpreda = 0
 
 #definition du mouvement
 def mouvement_proies() : 
-    mv = [[0,-1],[0,1],[-1,0],[1,0]] 
+    mv = [[0,-1],[0,1],[-1,0],[1,0],[-1,1],[1,1],[1,-1],[-1,-1]] 
     #mouvement des proies
     for p in proies :
         MV = rd.choice(mv)
@@ -45,7 +45,7 @@ def mouvement_proies() :
         
 
 def mouvement_Preda() :
-    mv = [[0,-1],[0,1],[-1,0],[1,0]] 
+    mv = [[0,-1],[0,1],[-1,0],[1,0],[-1,1],[1,1],[1,-1],[-1,-1]] 
     #mouvement des predateur
     for p in predateurs :
         MV = rd.choice(mv)
