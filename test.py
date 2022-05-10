@@ -45,7 +45,6 @@ def mouvement() :
             canvas.moveto(obj, coord[0][0]*CARRE, coord[0][1]*CARRE)
 
     #mouvement predateur 
-    return
     for p in predateurs :
         MV = rd.choice(mv)
         a,b = MV[0], MV[1]
@@ -66,13 +65,14 @@ def mouvement() :
         for obj in move : 
             canvas.moveto(obj, coord[0][0]*CARRE, coord[0][1]*CARRE)
         
-
+ 
 
 #definitiopn de la reproduction
 def tour(event):
     mouvement() 
     mort_proies()
     mort_predateur()
+    print(predateurs)
     
     for p in range(Rproie):
         coord = [choice(list(grille)), life]
