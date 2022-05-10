@@ -13,7 +13,7 @@ predateurs = []
 
 #definition des regles de vie 
 life = 1000
-Nproie = 2
+Nproie = 10
 Npreda = 0
 energie = 10
 Rproie = 0
@@ -30,21 +30,19 @@ def mouvement() :
         MV = rd.choice(mv)
         a,b = MV[0], MV[1]
         coord = [[p[0][0]+a,p[0][1]+b],p[1]]
-        a_delete.append(p)
-        a_ajouter.append(coord)
-        
-    for i in a_ajouter :
+        for k in grille :
+            while coord[0] not in grille  :
+                MV = rd.choice(mv)
+                a,b = MV[0], MV[1]
+                coord = [[p[0][0]+a,p[0][1]+b],p[1]]
+
+   
+        move = canvas.find_overlapping(p[0][0]*CARRE-10,p[0][1]*CARRE-10,p[0][0]*CARRE+CARRE-10,p[0][1]*CARRE+CARRE-10)
+        for obj in move : 
+            canvas.moveto(obj, coord[0][0]*CARRE, coord[0][1]*CARRE)
+        grille.append(p)
+        proies.remove(p)
         proies.append(coord)
-
-    for i in a_delete : 
-        proies.remove(i)
-        grille.append(i[0])
-        
-
-    
-    move = canvas.find_closest(p[0][0]*CARRE-10,p[0][1]*CARRE-10,p[0][0]*CARRE+CARRE-10,p[0][1]*CARRE+CARRE-10)
-    for obj in move : 
-        canvas.moveto(obj, coord[0][0]*CARRE, coord[0][1]*CARRE)
             
         
 
@@ -132,6 +130,7 @@ def mort_proies() :
 
 def mort_predateur() :
     a_delete = []
+    print(proies)
     for p in predateurs:
         p[1] -= 1
         p[2] -= 1
