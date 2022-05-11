@@ -11,6 +11,8 @@ CARRE = COTE//GRILLE
 #definition du chrono
 CHRONO = 500
 var_chrono = 0
+stop = True 
+sauvegarde = False
 
 #definition des differentes listes
 grille  = []
@@ -101,17 +103,29 @@ def mouvement_mort_Preda() :
     for p in a_ajouter :
         predateurs.append([p[0][0],p[0][1],p[0][2]]) #on ajoute aux predateurs les nouvelles coordonnées
             
-        
+def bouton() :
+    global stop
+    if stop == True : # Si la simulation est en pause et qu'il y a des animaux
+        stop = False
+        bouton_start.configure(text = "Arrêter") # Changer le texte du bouton en "Arrêter"
+        passage_tours() # Faire passer les tours
+    elif not stop: # Si arret == False (simulation en cours)
+        stop = True
+        bouton_start.configure(text = "Reprendre") # Changer le texte du bouton start en "Reprendre"
+        canvas.after_cancel(var_chrono) # Arrêter le passage des tours
 
 def passage_tours():
     """permet le passage de tour tout les x temps """
     global var_chrono
     var_chrono = canvas.after(CHRONO, tour) #tout les x temps la fonction tour est lancé
+        
+
     
 
 #definitiopn de la reproduction
 def tour():
     """permet de lancer toutes le definition a chaque tour """
+    charger()
     passage_tours()
     reproduction_proies()
     mouvement_mort_proies() 
@@ -163,6 +177,35 @@ def energie() :
             grille.remove(coord) #on retire de la liste des positions libre la position selectionnée
             p[2] = ENERGIE #on remet le compteur d'energie a la valeur de base
 
+def Sauvegarde() :
+    fic = open("sauvegarde", "w") 
+    fic.write("proies\n")
+    fic.write(str(proies)) 
+    fic.write("predateur\n")
+    fic.write(str(predateurs)) 
+    fic.write("grille\n")
+    fic.write(str(grille)) 
+    fic.close
+
+def charger() : 
+    fic = open("sauvegarde", "r")
+    for ligne in fic :
+        if ligne == "proies\n" :
+            proies.clear
+            proies.append(ligne)
+            proies.remove('proies\n')
+        
+        if ligne == "predateur\n" :
+            predateurs.clear
+            predateurs.append(ligne)
+            predateurs.remove('predateur\n')
+
+        if ligne == "grille\n" : 
+            grille.clear
+            grille.append(ligne)
+            grille.remove('grille\n')
+
+
 
 
 
@@ -182,8 +225,14 @@ canvas.grid()
 
 #bouton commencer
 racine.title("PROIE_PREDATEUR")
-bouton_start = tk.Button(racine, text = "Commencer", command = passage_tours, font = ("times new roman", 12))
+bouton_start = tk.Button(racine, text = "Commencer", command = bouton, font = ("times new roman", 12))
 bouton_start.grid()
+
+bouton_sauvegarde = tk.Button(racine, text = "sauvegarde", command = Sauvegarde, font = ("times new roman", 12))
+bouton_sauvegarde.grid()
+
+bouton_sauvegarde = tk.Button(racine, text = "charger", command = charger, font = ("times new roman", 12))
+bouton_sauvegarde.grid()
 
 creer_grille()
 
