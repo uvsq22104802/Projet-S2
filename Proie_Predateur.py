@@ -24,7 +24,7 @@ Nproie = 100
 Npreda = 3
 ENERGIE = 15
 MIAM = 5
-Rproie = 0
+Rproie = 20 
 Rpreda = 20
 
             
@@ -113,12 +113,11 @@ def passage_tours():
 #definitiopn de la reproduction
 def tour():
     """permet de lancer toutes le definition a chaque tour """
-    print(predateurs)
     passage_tours()
     reproduction_proies()
-    energie()
     mouvement_mort_proies() 
     mouvement_mort_Preda()
+    energie()
 
 
 
@@ -159,13 +158,13 @@ def energie() :
                 p[2] += MIAM
 
     for p in predateurs :
-        if p[2] >= Rpreda :
+        if p[2] > Rpreda :
             for i in range (1) :
                 coord = choice(list(grille))
                 canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "red")
-                predateurs.append(coord)
-                predateurs[p] = [predateurs[p], life, ENERGIE]
+                predateurs.append([coord,life,ENERGIE])
                 grille.remove(coord)
+                p[2] = Rpreda - 1
 
 
 
