@@ -19,13 +19,13 @@ predateurs = []
 
 
 #definition des regles de vie 
-life = 20
-Nproie = 100
+life = 10
+Nproie = 50
 Npreda = 3
-ENERGIE = 15
+ENERGIE = 5
 MIAM = 5
-Rproie = 20 
-Rpreda = 20
+Rproie = 50
+Rpreda = 12
 
             
 def mouvement_mort_proies() : 
@@ -77,22 +77,19 @@ def mouvement_mort_Preda() :
         move = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
         canvas.delete(move[0])
         a_delete.append(p) 
-        if p[2] != 0 :
-            p[2] -= 1
-            if p[1] != 0 :
-                p[1] -= 1
+
+        MV = rd.choice(mv)
+        a,b = MV[0], MV[1]
+        coord = [[p[0][0]+a,p[0][1]+b],p[1],p[2]] 
+
+        if coord[0] not in (grille or proies[0][0]):
                 MV = rd.choice(mv)
                 a,b = MV[0], MV[1]
-                coord = [[p[0][0]+a,p[0][1]+b],p[1],p[2]] 
-
-                if coord[0] not in (grille or proies[0][0]):
-                    MV = rd.choice(mv)
-                    a,b = MV[0], MV[1]
-                    coord = [[p[0][0]+a,p[0][1]+b],p[1],p[2]]
+                coord = [[p[0][0]+a,p[0][1]+b],p[1],p[2]]
 
 
-                a_ajouter.append([coord])
-                canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+CARRE, fill = "red")
+        a_ajouter.append([coord])
+        canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+CARRE, fill = "red")
 
 
     for p in a_delete :
@@ -118,6 +115,9 @@ def tour():
     mouvement_mort_proies() 
     mouvement_mort_Preda()
     energie()
+
+
+
 
 
 
@@ -157,21 +157,36 @@ def energie() :
             if p[0] == k[0] :
                 p[2] += MIAM
 
+    a_delete = []
     for p in predateurs :
-        if p[2] > Rpreda :
-            for i in range (1) :
+            p[1] -= 1
+            p[2] -= 1
+            if p[2] > Rpreda :
+                print(p[1],p[2])
                 coord = choice(list(grille))
                 canvas.create_rectangle(coord[0]*CARRE,coord[1]*CARRE,coord[0]*CARRE+CARRE,coord[1]*CARRE+ CARRE, fill = "red")
                 predateurs.append([coord,life,ENERGIE])
                 grille.remove(coord)
-                p[2] = Rpreda - 1
+                p[2] = ENERGIE
+            if p[1] == 0 :
+                a_delete.append(p)
+                suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+ CARRE)
+                canvas.delete(suppr[0])
+                grille.append(a_delete[0])  
 
+            if p[2] == 0 :
+                a_delete.append(p)
+                suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+ CARRE)
+                canvas.delete(suppr[0])
+                grille.append(a_delete[0][0])   
 
+            for i in a_delete :
+                print(a_delete)
+                print(predateurs)
+                predateurs.remove(a_delete[0])
+                a_delete.remove(a_delete[0])
+                             
 
-
-
-
-    
 
 
 #definition de toute les positions
@@ -180,7 +195,6 @@ def creer_grille():
     for i in range(30):
         for j in range(30):
             grille.append([i,j])
-
 
 
 #Creation du canvas#
