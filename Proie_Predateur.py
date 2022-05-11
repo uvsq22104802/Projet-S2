@@ -19,53 +19,50 @@ predateurs = []
 
 
 #definition des regles de vie 
-life = 10
-Nproie = 50
-Npreda = 3
+life = 5
+Nproie = 0
+Npreda = 5
 ENERGIE = 5
 MIAM = 5
-Rproie = 50
+Rproie = 0
 Rpreda = 12
 
             
-def mouvement_mort_proies() : 
+def mouvement_proies() : 
     """permet a la proies de bouger autour d'elle"""
     mv = [[0,-1],[0,1],[-1,0],[1,0],[-1,1],[1,1],[1,-1],[-1,-1]] #listes des differentes position pouvant etre prise
     a_delete = []
     a_ajouter = []
     for p in proies : # pour chaque proies, on ajoute aux coordonnée + ou - 1 pour les deplacer 
-
         move = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
         canvas.delete(move[0])
         a_delete.append(p)
-        
-        if p[1] != 0 :
-            p[1] -= 1
+        MV = rd.choice(mv)
+        a,b = MV[0], MV[1]
+        coord = [[p[0][0]+a,p[0][1]+b],p[1]]        
+
+        if coord[0] not in grille :
             MV = rd.choice(mv)
             a,b = MV[0], MV[1]
-            coord = [[p[0][0]+a,p[0][1]+b],p[1]] 
-
-            while coord[0] not in grille :
-                MV = rd.choice(mv)
-                a,b = MV[0], MV[1]
-                coord = [[p[0][0]+a,p[0][1]+b],p[1]]
+            coord = [[p[0][0]+a,p[0][1]+b],p[1]]
 
 
-            a_ajouter.append([coord, p[1]])
+        a_ajouter.append(coord)
 
-            canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+CARRE, fill = "blue")
+        canvas.create_rectangle(coord[0][0]*CARRE,coord[0][1]*CARRE,coord[0][0]*CARRE+CARRE,coord[0][1]*CARRE+CARRE, fill = "blue")
+
 
     for p in a_delete :
         proies.remove(p)
         grille.append(p[0])
 
     for p in a_ajouter :
-        proies.append([p[0][0],p[0][1]])
+        proies.append([[p[0][0],p[0][1]],p[1]])
 
    
 
 
-def mouvement_mort_Preda() :
+def mouvement_Preda() :
     """ permet au predateur de bouger autour de lui """
     mv = [[0,-1],[0,1],[-1,0],[1,0],[-1,1],[1,1],[1,-1],[-1,-1]] 
     #mouvement des predateur
@@ -77,7 +74,6 @@ def mouvement_mort_Preda() :
         move = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+CARRE)
         canvas.delete(move[0])
         a_delete.append(p) 
-
         MV = rd.choice(mv)
         a,b = MV[0], MV[1]
         coord = [[p[0][0]+a,p[0][1]+b],p[1],p[2]] 
@@ -111,11 +107,11 @@ def passage_tours():
 def tour():
     """permet de lancer toutes le definition a chaque tour """
     passage_tours()
-    reproduction_proies()
-    mouvement_mort_proies() 
-    mouvement_mort_Preda()
     energie()
-
+    mouvement_proies() 
+    mouvement_Preda()
+    reproduction_proies()
+    mort_proies()
 
 
 
@@ -181,12 +177,24 @@ def energie() :
                 grille.append(a_delete[0][0])   
 
             for i in a_delete :
-                print(a_delete)
-                print(predateurs)
                 predateurs.remove(a_delete[0])
                 a_delete.remove(a_delete[0])
                              
+def mort_proies() :
+    a_delete = []
+    for p in proies :
+        print(p[1])
+        p[1] -= 1
+        if p[1] == 0 :
+            print("test")
+            a_delete.append(p)
+            suppr = canvas.find_overlapping(p[0][0]*CARRE,p[0][1]*CARRE,p[0][0]*CARRE+CARRE,p[0][1]*CARRE+ CARRE)
+            canvas.delete(suppr[0])
+            grille.append(a_delete[0][0])
 
+    for i in a_delete :
+        proies.remove(a_delete[0])
+        a_delete.remove(a_delete[0])
 
 
 #definition de toute les positions
