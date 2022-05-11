@@ -1,7 +1,7 @@
-T = [[5,2], 3]
-X = []
-X.append(T)
+L = []
+tuple = (6,2)
 
-T.remove(X[0][0])
+L.append([[tuple[0],tuple[1]], 2])
 
-print(T)
+
+print(L)
